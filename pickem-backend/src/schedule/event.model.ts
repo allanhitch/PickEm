@@ -1,4 +1,5 @@
 import * as mongoos from 'mongoose';
+import { DbCacheableModel } from 'src/utilities/mongoDbLongTermCaching/mongoDbLongTermCaching.types';
 
 export const EventSchema = new mongoos.Schema({
     apiId: {type: Number, required: true},
@@ -12,10 +13,12 @@ export const EventSchema = new mongoos.Schema({
     homeTeamScore: {type: Number, required: true},
     round: {type: Number, required: true},
     awayTeamScore: {type: Number, required: true},
-    eventTimestamp: {type: Date, required: true}
+    eventTimestamp: {type: Date, required: true},
+    insertTimestamp: {type: Date, required: true},
+    insertExpirationDate: {type: Date, required: true}
 });
 
-export interface Event extends mongoos.Document {
+export interface Event extends mongoos.Document, DbCacheableModel {
     apiId: number,
     eventFriendlyName: string,
     sport: string,
@@ -27,5 +30,71 @@ export interface Event extends mongoos.Document {
     homeTeamScore: number,
     round: number,
     awayTeamScore: number,
-    eventTimestamp: Date
+    eventTimestamp: Date,
+}
+
+export interface SportsDbEvent {
+    idEvent: number,
+    idSoccerXML: string,
+    idAPIfootball: string,
+    strEvent: string,
+    strEventAlternate: string,
+    strFilename: string,
+    strSport: number,
+    idLeague: number,
+    strLeague: string,
+    strSeason: string,
+    strDescriptionEN: string,
+    strHomeTeam: string,
+    strAwayTeam: string,
+    intHomeScore: number,
+    intRound: number,
+    intAwayScore: number,
+    intSpectators: number,
+    strOfficial: string,
+    strHomeGoalDetails: string,
+    strHomeRedCards: string,
+    strHomeYellowCards: string,
+    strHomeLineupGoalkeeper: string,
+    strHomeLineupDefense: string,
+    strHomeLineupMidfield: string,
+    strHomeLineupForward: string,
+    strHomeLineupSubstitutes: string,
+    strHomeFormation: string,
+    strAwayRedCards: string,
+    strAwayYellowCards: string,
+    strAwayGoalDetails: string,
+    strAwayLineupGoalkeeper: string,
+    strAwayLineupDefense: string,
+    strAwayLineupMidfield: string,
+    strAwayLineupForward: string,
+    strAwayLineupSubstitutes: string,
+    strAwayFormation: string,
+    intHomeShots: number,
+    intAwayShots: number,
+    strTimestamp: Date,
+    dateEvent: number,
+    dateEventLocal: number,
+    strTime: Date,
+    strTimeLocal: string,
+    strTVStation: string,
+    idHomeTeam: number,
+    idAwayTeam: number,
+    strResult: string,
+    strVenue: string,
+    strCountry: string,
+    strCity: string,
+    strPoster: string,
+    strSquare: string,
+    strFanart: string,
+    strThumb: string,
+    strBanner: string,
+    strMap: string,
+    strTweet1: string,
+    strTweet2: string,
+    strTweet3: string,
+    strVideo: string,
+    strStatus: string,
+    strPostponed: string,
+    strLocked: string,
 }
