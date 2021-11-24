@@ -8,6 +8,7 @@ import { MongoDbTeamsService } from './mongoDbTeams.service';
   imports: [
     TypeOrmModule.forFeature([Team]), 
   ],
+  providers: [MongoDbTeamsService],
   exports: [MongoDbTeamsService]
 })
 export class MongoDbTeamsModule {}
