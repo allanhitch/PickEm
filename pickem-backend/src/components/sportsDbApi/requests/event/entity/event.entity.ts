@@ -1,36 +1,77 @@
 import * as mongoos from 'mongoose';
-import { DbCacheableModel } from 'src/utilities/mongoDbLongTermCaching/mongoDbLongTermCaching.types';
+import { DbCacheableModel } from 'src/components/utilities/mongoDbLongTermCaching/mongoDbLongTermCaching.types';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
-export const EventSchema = new mongoos.Schema({
-    apiId: {type: Number, required: true},
-    eventFriendlyName: {type: String, required: true},
-    sport: {type: String, required: true},
-    leagueId: {type: Number, required: true},
-    leagueName: {type: String, required: true},
-    season: {type: Number, required: true},
-    homeTeamName: {type: String, required: true},
-    awayTeamname: {type: String, required: true},
-    homeTeamScore: {type: Number, required: true},
-    round: {type: Number, required: true},
-    awayTeamScore: {type: Number, required: true},
-    eventTimestamp: {type: Date, required: true},
-    insertTimestamp: {type: Date, required: true},
-    insertExpirationDate: {type: Date, required: true}
-});
-
-export interface Event extends mongoos.Document, DbCacheableModel {
-    apiId: number,
-    eventFriendlyName: string,
-    sport: string,
-    leagueId: number,
-    leagueName: string,
-    season: number,
-    homeTeamName: string,
-    awayTeamname: string,
-    homeTeamScore: number,
-    round: number,
-    awayTeamScore: number,
-    eventTimestamp: Date,
+@Entity({name: 'events'})
+export class Event {
+    @ObjectIdColumn()
+    id: number;
+    
+    @Column({
+        type: 'string',
+    })
+    eventFriendlyName: string;
+    
+    @Column({
+        type: 'string',
+    })
+    sport: string;
+    
+    @Column({
+        type: 'number',
+        unique: true
+    })
+    leagueId: number;
+    
+    @Column({
+        type: 'string',
+    })
+    leagueName: string;
+    
+    @Column({
+        type: 'string',
+    })
+    season: string;
+    
+    @Column({
+        type: 'string',
+    })
+    homeTeamName: string;
+    
+    @Column({
+        type: 'string',
+    })
+    awayTeamName: string;
+    
+    @Column({
+        type: 'number',
+    })
+    homeTeamScore: number;
+    
+    @Column({
+        type: 'number',
+    })
+    round: number;
+    
+    @Column({
+        type: 'number',
+    })
+    awayTeamScore: number;
+    
+    @Column({
+        type: 'date',
+    })
+    eventTimestamp: Date;
+    
+    @Column({
+        type: 'date',
+    })
+    insertTimestamp: Date;
+    
+    @Column({
+        type: 'date',
+    })
+    insertExpirationDate: Date;
 }
 
 export interface SportsDbEvent {
@@ -40,7 +81,7 @@ export interface SportsDbEvent {
     strEvent: string,
     strEventAlternate: string,
     strFilename: string,
-    strSport: number,
+    strSport: string,
     idLeague: number,
     strLeague: string,
     strSeason: string,

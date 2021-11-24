@@ -1,20 +1,23 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule} from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { EventModule } from './schedule/event.module';
-import { mongoDbConfig } from '../config/config'
-import { TeamsModule } from './teams/teams.module';
+import { ormConfig } from './database/config/ormConfig'
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TeamModule } from './components/core/team/team.module';
+import { EventModule } from './components/core/schedule/schedule.module';
 
 @Module({
   imports: [
+    TeamModule,
     EventModule,
-    TeamsModule,
-    ConfigModule.forRoot(),
-    MongooseModule.forRoot(mongoDbConfig())
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot(ormConfig()),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+

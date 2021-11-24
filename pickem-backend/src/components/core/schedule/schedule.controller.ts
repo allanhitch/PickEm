@@ -1,9 +1,10 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { EventService } from './event.service';
+import { SportsDbEventRequestService } from '../../sportsDbApi/requests/event/SportsDbEventRequest.service';
 
-@Controller('events')
-export class EventController {
-  constructor(private readonly appService: EventService) {}
+@Controller('schedule')
+export class ScheduleController {
+  constructor(
+    private readonly appService: SportsDbEventRequestService) {}
 
   //prob move this to config at somepoint
   readonly  nflLeagueId = 4391;

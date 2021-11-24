@@ -1,35 +1,87 @@
 import * as mongoos from 'mongoose';
-import { DbCacheableModel } from 'src/utilities/mongoDbLongTermCaching/mongoDbLongTermCaching.types';
+import { DbCacheableModel } from 'src/components/utilities/mongoDbLongTermCaching/mongoDbLongTermCaching.types';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
-export const TeamSchema = new mongoos.Schema({
-    apiId: {type: Number, required: true},
-    teamName: {type: String, required: true},
-    shortTeamName: {type: String, required: true},
-    sportName: {type: String, required: true},
-    leagueName: {type: String, required: true},
-    leagueId: {type: Number, required: true},
-    stadiumName: {type: String, required: true},
-    stadiumLocation: {type: String, required: true},
-    teamBadgeUrl: {type: String, required: true},
-    teamLogoUrl: {type: String, required: true},
-    teamBannerUrl: {type: String, required: true},
-    insertTimestamp: {type: Date, required: true},
-    insertExpirationDate: {type: Date, required: true}
-});
+@Entity({name: 'teams'})
+export class Team {
+    @ObjectIdColumn()
+    id: number;
 
-export interface Team extends mongoos.Document, DbCacheableModel {
-    apiId: number,
-    teamName: string,
-    shortTeamName: string,
-    sportName: string,
-    leagueName: string,
-    leagueId: number,
-    stadiumName: string,
-    stadiumLocation: string,
-    teamBadgeUrl: string,
-    teamLogoUrl: string,
-    teamBannerUrl: string,
+    @Column({
+        type: 'string',
+    })
+    teamName: string;
+
+    @Column({
+        type: 'string',
+    })
+    shortTeamName: string;
+
+    @Column({
+        type: 'string',
+    })
+    sportName: string;
+
+    @Column({
+        type: 'string',
+    })
+    leagueName: string;
+
+    @Column({
+        type: 'number',
+        unique: true
+    })
+    leagueId: number;
+
+    @Column({
+        type: 'string',
+    })
+    stadiumName: string;
+
+    @Column({
+        type: 'string',
+    })
+    stadiumLocation: string;
+
+    @Column({
+        type: 'string',
+    })
+    teamBadgeUrl: string;
+
+    @Column({
+        type: 'string',
+    })
+    teamLogoUrl: string;
+
+    @Column({
+        type: 'string',
+    })
+    teamBannerUrl: string;
+
+    @Column({
+        type: 'date',
+    })
+    insertTimestamp: Date;
+
+    @Column({
+        type: 'date',
+    })
+    insertExpirationDate: Date;
 }
+
+// export interface Team extends mongoos.Document, DbCacheableModel {
+//     apiId: number,
+//     teamName: string,
+//     shortTeamName: string,
+//     sportName: string,
+//     leagueName: string,
+//     leagueId: number,
+//     stadiumName: string,
+//     stadiumLocation: string,
+//     teamBadgeUrl: string,
+//     teamLogoUrl: string,
+//     teamBannerUrl: string,
+// }
 
 export interface SportDbTeam {
     idTeam: number,

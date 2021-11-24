@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { sportsDbBaseUrlWithApiKey } from 'config/config';
-import { SportsDbApiUrlParams } from './sportsDbApiRequest.types';
+import { sportsDbBaseUrlWithApiKey } from 'src/components/sportsDbApi/config/sportsDbApiConfig';
+import { SportsDbApiUrlParams } from './sportsDbApiRequestCreator.types';
 
 @Injectable()
-export class SportsDbApiRequestService {
+export class SportsDbApiRequestCreatorService {
   createSportsDbApiRequestUrl(sportsDbApiEventsPath: string, params: SportsDbApiUrlParams[] ) {
     const requestSring = `${sportsDbBaseUrlWithApiKey()}${sportsDbApiEventsPath}?${this.parseParametersToString(params)}`;
     return requestSring;
