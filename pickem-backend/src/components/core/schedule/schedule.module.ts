@@ -5,12 +5,14 @@ import { SportsDbApiRequestCreatorModule } from 'src/components/utilities/sports
 import { ScheduleController } from './schedule.controller';
 import { ScheduleService } from './schedule.service';
 import { Event } from '../../sportsDbApi/requests/event/entity/event.entity';
+import { MongoDbEventModule } from 'src/components/mongoDb/event/mongoDbEvent.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Event]), 
     SportsDbApiRequestCreatorModule,
-    SportsDbEventRequestModule
+    SportsDbEventRequestModule,
+    MongoDbEventModule,
   ],
     controllers: [ScheduleController],
     providers: [ScheduleService],

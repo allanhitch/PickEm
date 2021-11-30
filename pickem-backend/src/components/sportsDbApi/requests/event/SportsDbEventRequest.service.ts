@@ -1,6 +1,6 @@
 import {  Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { SportsDbEvent } from './entity/event.entity';
 import { Event } from './entity/event.entity'
 import * as moment from 'moment'
@@ -18,37 +18,34 @@ export class SportsDbEventRequestService {
   readonly sportsDbApiEventsPath = "eventsseason.php";
   readonly insertValidFor = {days: 1}
 
-  getEventsBySeason(seasonYear: number, leagueId: number): Observable<Event[]> {
+  async getEventsBySeason(seasonYear: string, leagueDbNumber: string): Promise<Event[]> {
     const sportsDbApiParams : SportsDbApiUrlParams[] = [
-      {parameterName: "id", value: leagueId},
+      {parameterName: "id", value: leagueDbNumber},
       {parameterName: "s", value: seasonYear},
     ];
     const requestString = this.sportsDbApiRequestCreatorService.createSportsDbApiRequestUrl(this.sportsDbApiEventsPath, sportsDbApiParams);
-    const allEvents = this.httpService.get(requestString);
-    const mappedEvents = allEvents.pipe(
-      map((axiosResponse: AxiosResponse) => {
-        return axiosResponse.data.events.map((sportsDbEvent: SportsDbEvent) => {
-          const currentDateTime = new Date().toISOString();
-          const event = new Event();
-          event.id = sportsDbEvent.idEvent,
-          event.eventFriendlyName = sportsDbEvent.strEvent,
-          event.sport = sportsDbEvent.strSport,
-          event.leagueId = sportsDbEvent.idLeague,
-          event.leagueName = sportsDbEvent.strLeague,
-          event.season = sportsDbEvent.strSeason,
-          event.homeTeamName = sportsDbEvent.strHomeTeam,
-          event.awayTeamName = sportsDbEvent.strAwayTeam,
-          event.homeTeamScore = sportsDbEvent.intHomeScore,
-          event.round = sportsDbEvent.intRound,
-          event.awayTeamScore = sportsDbEvent.intAwayScore,
-          event.eventTimestamp = new Date(new Date(sportsDbEvent.strTimestamp).toISOString()),
-          event.insertTimestamp = new Date(currentDateTime),
-          event.insertExpirationDate = moment(currentDateTime).add(this.insertValidFor).toDate();
+    const allEvents = await firstValueFrom(this.httpService.get(requestString));
 
-          return event;
-        });
-      })
-    ); 
-    return mappedEvents;
+    return allEvents.data.events.map((sportsDbEvent: SportsDbEvent) => {
+      const currentDateTime = new Date().toISOString();
+      const event = new Event();
+      event.apiDbNumber = sportsDbEvent.idEvent,
+      event.eventFriendlyName = sportsDbEvent.strEvent,
+      event.sport = sportsDbEvent.strSport,
+      event.leagueApiNumber = sportsDbEvent.idLeague,
+      event.leagueName = sportsDbEvent.strLeague,
+      event.season = sportsDbEvent.strSeason,
+      event.homeTeamName = sportsDbEvent.strHomeTeam,
+      event.awayTeamName = sportsDbEvent.strAwayTeam,
+      event.homeTeamScore = sportsDbEvent.intHomeScore,
+      event.round = sportsDbEvent.intRound,
+      event.awayTeamScore = sportsDbEvent.intAwayScore,
+      //TODO: may need to double check what timezone the sports db event is returning
+      event.eventTimestamp = new Date(new Date(sportsDbEvent.strTimestamp).toISOString()),
+      event.insertTimestamp = new Date(currentDateTime),
+      event.insertExpirationDate = moment(currentDateTime).add(this.insertValidFor).toDate();
+
+      return event;
+    }) as Event[];
   }
 }
