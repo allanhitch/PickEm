@@ -4,35 +4,23 @@ Pick Em' will be a mobile site that allows users to join leagues to compete agai
 
 # Technologies
 
-* yarn
-* expo app
-* TestFlight
-
-
-* yarn add -g expo-cli (if expo cli is not installed)
+* React
+* NestJS
 
 # Setup
 
-* run "yarn install" to install all dependencies needed to run the app
-* yarn upgrade (if version is behind current)
-* yarn add expo (to upgrade expo version if behind)
-* download the expo app for iOS or Android
+* run "npm install" to install all dependencies needed to run the app
+* Ask Hunter Nichols for access to the MongoDb Atlas Database
+* Add a file named .env to the root 'pickem' folder and copy the .env.example to it and fill in the data were neccissary
 
 # Running
 
-* Use "yarn start" 
-* Scan the QR code for the newly created expo app. This will build the app onto your phone (via expo app)
-* Logon to expo via CLI and in App to sync project
-* If you have the TestFlight link, download and run on your iPhone
+* Navigate to 'pickem-backend' from a terminal and execute 'npm run start:dev'
+* Navigate to 'pickem-frontend' from a terminal and execute 'npm start'
 
 # Testing
 
-* Jest
-* Installation and Running:
-
-> * 1: From command promt in project root directory type "yarn add jest-expo --dev"
-> * 2: Type "yarn add react-test-renderer --dev"
-> * 3: Type "yarn test" to run tests
+* There is none yet m8
 
 
 # Authors

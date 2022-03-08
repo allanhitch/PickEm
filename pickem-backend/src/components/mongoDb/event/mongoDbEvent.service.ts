@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Event } from '../../sportsDbApi/requests/event/entity/event.entity'
 
+//TODO should create a base repository and let these classes extend it since some of this stuff is the same
 @Injectable()
 export class MongoDbEventService {
   constructor(@InjectRepository(Event)

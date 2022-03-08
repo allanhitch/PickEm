@@ -11,6 +11,8 @@ export class TeamService {
     ) {}
 
   async getTeamsByLeague(leagueName: string) {
+    //TODO: this logic will always be the same for whatever object should be abstracted out. 
+    //but to do that we need to setup a base object that will be extended by the actual object
     const teams = await this.mongoDbTeamsService.getAllTeamsByLeague(leagueName);
     if(this.isManyTeamsAvailableInternally(teams)) {
       const teamsFromSportsDb = await this.sportsDbTeamRequestService.getTeamsByLeague(leagueName);

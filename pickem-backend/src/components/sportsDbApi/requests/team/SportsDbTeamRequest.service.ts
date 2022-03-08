@@ -3,7 +3,6 @@ import { HttpService } from '@nestjs/axios'
 import { SportsDbApiRequestCreatorService } from 'src/components/utilities/sportsDbApiRequestCreator/sportsDbApiRequestCreator.service';
 import { SportDbTeam, Team } from './entity/team.entity';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { AxiosResponse } from 'axios';
 import { SportsDbApiUrlParams } from 'src/components/utilities/sportsDbApiRequestCreator/sportsDbApiRequestCreator.types';
 import * as moment from 'moment'
 
@@ -40,6 +39,7 @@ export class SportsDbTeamRequestService{
       team.teamBadgeUrl = sportDbTeam.strTeamBadge,
       team.teamLogoUrl = sportDbTeam.strTeamLogo,
       team.teamBannerUrl = sportDbTeam.strTeamBanner,
+      //TODO: these will be the same for every object should be abstracted
       team.insertTimestamp = new Date(currentDateTime),
       team.insertExpirationDate = moment(currentDateTime).add(this.insertValidFor).toDate();
 

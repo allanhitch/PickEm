@@ -4,6 +4,7 @@ import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
 @Entity({name: 'events'})
 //TODO: abstract out similiar columns to another class
+//TODO: do the entities even go here? not sure.
 export class Event {
     @ObjectIdColumn()
     id: ObjectID;
